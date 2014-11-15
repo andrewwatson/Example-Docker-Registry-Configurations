@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. env.sh
+
 docker run -d \
 	-e SETTINGS_FLAVOR=s3 \
 	-e AWS_BUCKET=$AWS_BUCKET \
@@ -7,8 +9,10 @@ docker run -d \
 	-e AWS_KEY=$AWS_ACCESS_KEY \
 	-e AWS_SECRET=$AWS_SECRET_KEY \
 	-e AWS_REGION=us-west-1 \
-	-e DOCKER_REGISTRY_CONFIG=/data/config-s3only.yml \
-	--volumes-from my-data \
-	-p 80:5000 registry
+	-e DISABLE_TOKEN_AUTH=true \
+	-v $PWD:/registry-conf \
+	-e DOCKER_REGISTRY_CONFIG=/registry-conf/config-s3only.yml \
+	-e STANDALONE=true \
+	-p 5000:5000 registry
 
-#	-v $PWD:/registry-conf \
+#	 --volumes-from my-data \

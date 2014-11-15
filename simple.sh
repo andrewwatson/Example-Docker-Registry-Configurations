@@ -1,10 +1,10 @@
 #!/bin/bash
 
-docker run -it \
+docker run -d \
 	-e SETTINGS_FLAVOR=local \
 	-e STORAGE_PATH=/registry \
-	-e DOCKER_REGISTRY_CONFIG=/data/config-original.yml \
-	--volumes-from my-data \
+	-e DOCKER_REGISTRY_CONFIG=/registry-conf/config-original.yml \
+ 	-v $PWD:/registry-conf \
 	-p 5000:5000 registry 
 
-# -v $PWD:/registry-conf \
+	#--volumes-from my-data \
